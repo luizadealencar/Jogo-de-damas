@@ -65,16 +65,8 @@ function drop(ev) {
     // verifica se a peca pode ser movida pelo jogador atual
     if (peca.dataset.cor === jogadorAtual) {
         destino.appendChild(peca);
-        if (peca.dataset.cor === 'black' && peca.dataset.linha === '7') {
-            tornarDama(peca);
-        } else if (peca.dataset.cor === 'red' && peca.dataset.linha === '0') {
-            tornarDama(peca);
-        }
-
         // atualiza a cor do jogador atual
         jogadorAtual = jogadorAtual === 'black' ? 'red' : 'black';
-
-
     }
 }
 

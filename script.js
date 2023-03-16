@@ -81,12 +81,11 @@ function excluiPecaTabela(tabela, linha, coluna) {
     tabela.rows[linha].cells[coluna].removeChild(tabela.rows[linha].cells[coluna].firstChild);
 }
 
-function fim(event, linha, coluna, remove) {
+function fim(event, linha, coluna, remove){
     event.preventDefault();
     var id = event.dataTransfer.getData("text");
     var exibe = document.getElementById("erro");
-    var jogar = document.getElementById("jogador").innerHTML;
-    var jogador;    
+    var jogar = document.getElementById("jogador").innerHTML;   
     if(jogar.substring(0,1) != id.substring(0,1)){
         exibe.style.display = "block";
         return false;

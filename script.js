@@ -86,21 +86,13 @@ function fim(event, linha, coluna, remove) {
     var id = event.dataTransfer.getData("text");
     var exibe = document.getElementById("erro");
     var jogar = document.getElementById("jogador").innerHTML;
-    var jogador;
-    
-    if(id.substring(0,1) == "V"){
-        jogador = "Preto";
-    }else{
-        jogador = "Vermelho";
-    }
-    
+    var jogador;    
     if(jogar.substring(0,1) != id.substring(0,1)){
         exibe.style.display = "block";
         return false;
     }else{
         exibe.style.display = "none";
     }
-    
     if(remove == 'D1' || remove == 'D2'){
         descarte(id, remove, id.substring(0,1));
     }else{
@@ -114,15 +106,8 @@ function fim(event, linha, coluna, remove) {
         }else{
             exibe.style.display = "none";
         }
-
-        if (id.substring(0,1) == "V"){
-            document.getElementById("jogador").innerHTML = "Vermelho";
-        }else{
-            document.getElementById("jogador").innerHTML = "Preto";
-        }
         event.target.appendChild(document.getElementById(id));
     }
-
 }
 
 // ------------------------JOGANDO

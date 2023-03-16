@@ -1,12 +1,11 @@
 const tamanhoCelula = 50;
 let pecaId = 0;
 document.querySelector('#tabuleiro').append(criaTabuleiro());
-let tabela = document.createElement('table');
-
 
 function criaTabuleiro() {
     const tamanho = 8;
     let tabela = document.createElement('table');
+    tabela.setAttribute('id', 'tabela');
     tabela.style.borderStyle = 'solid';
     tabela.style.borderSpacing = 0;
     tabela.style.margin = 'auto';
@@ -17,7 +16,7 @@ function criaTabuleiro() {
         for (let j = 0; j < tamanho; j++) {
             let celula = document.createElement('td');
             linha.append(celula);
-            
+
             celula.style.width = `${tamanhoCelula}px`;
             celula.style.height = `${tamanhoCelula}px`;
             if (i % 2 == j % 2) {
@@ -34,13 +33,13 @@ function criaTabuleiro() {
             }
         }
     };
-    
     return tabela;
 }
 
 function criaPeca(cor) {
     let imagem = document.createElement('img');
     imagem.id = pecaId++
+    imagem.dataset.cor = cor;
     imagem.setAttribute('src', `img/${cor}.png`);
     imagem.setAttribute('width', `${tamanhoCelula - 4}px`);
     imagem.setAttribute('height', `${tamanhoCelula - 4}px`);
@@ -61,31 +60,42 @@ function drop(ev) {
     ev.preventDefault();
     const data = ev.dataTransfer.getData("pecaid");
     const peca = document.getElementById(data);
-    ev.target.appendChild(peca);
-    if (peca.dataset.cor === 'black' && event.target.dataset.linha === '7') {
-        tornarDama(peca);
-    } else if (peca.dataset.cor === 'red' && event.target.dataset.linha === '0') {
-        tornarDama(peca);
-    }
-    const celulaOrigem = document.getElementById(peca.parentElement.id);
-    const celulaDestino = event.target;
+    const destino = ev.target
 
-    if (movimentoValido(celulaOrigem, celulaDestino)) {
-        const pecaAdversaria = getPecaAdversaria(celulaOrigem, celulaDestino);
-    if (pecaAdversaria) {
-        celulaAdversaria.removeChild(pecaAdversaria);
+    // verifica se a peca pode ser movida pelo jogador atual
+    if (peca.dataset.cor === jogadorAtual) {
+        destino.appendChild(peca);
+        if (peca.dataset.cor === 'black' && peca.dataset.linha === '7') {
+            tornarDama(peca);
+        } else if (peca.dataset.cor === 'red' && peca.dataset.linha === '0') {
+            tornarDama(peca);
+        }
+
+        // atualiza a cor do jogador atual
+        jogadorAtual = jogadorAtual === 'black' ? 'red' : 'black';
+
+
     }
-    celulaDestino.appendChild(peca);
-  }
 }
 
-//verifica se uma dada celula está sem peça
-function ehVazia(linha,coluna){
+//verifica se uma dada celula esta sem peca
+function ehVazia(linha, coluna) {
     return tabela.rows[linha].cells[coluna].childNodes.length == 0;
 }
 
-function excluiPeca(tabela,linha,coluna){}
+//!precisa verificar antes se a peca existe
+function excluiPecaTabela(tabela, linha, coluna) {
+    if (ehVazia(linha, coluna)) return alert('Nao ha peca para excluir');
+    tabela.rows[linha].cells[coluna].removeChild(tabela.rows[linha].cells[coluna].firstChild);
+}
 
 function tornarDama(peca) {
     peca.classList.add('dama');
 }
+
+// ------------------------JOGANDO
+let tabela = document.querySelector('#tabela');
+let jogadorAtual = 'black';
+// while (jogoNaoAcabou) {
+
+// }
